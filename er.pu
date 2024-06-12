@@ -1,100 +1,96 @@
-@startuml app_book
+@startuml app_ai
 ' hide the spot
 hide circle
 
 ' avoid problems with angled crows feet
 skinparam linetype ortho
 
-entity "Users" as users {
-  id : bigint
-  --
-  name : string
-  name_kana : string
-  email : string
-  password : string
-  password_confirmation : string
-  encrypted_password : string
-  etc..deviseで必要なカラム
+entity "Users" as USERS {
+    id : bigint
+    --
+    company_id : bigint<<FK>>
+    department_id : bigint<<FK>>
+    client_id : bigint<<FK>>
+    job_status : string(在職 or 就活中)
+    name : string(ユーザー名) null: false
+    email : string null: false
+    password : string null: false
+    password_confirmation : string null: false
+
+    etc..deviseで必要なカラム
 }
 
-entity "Libraries" as libraries {
-  id : bigint
-  --
-  name : string
-  name_kana : string
-  author : string
-  author_kana : string
-  total_pages : int
-  category : string
-  published_at
+entity "Posts(生成した文章)" as POSTS {
+    id : bigint
+    --
+    user_id : bigint<<FK>>
+    text : text(生成したテキスト) null: false
+    word_count : int(文字数)
+    sns : string(slack or mail or blog) null: false
 }
 
-entity "Books" as books {
-  id : bigint
-  --
-  user_id : bigint <<FK>>
-  title : string
-  url : string
-  status : boolean
+entity "post_types" as POSTTYPES {
+    id : bigint
+    --
+    post_id : bigint<<FK>>
+    type_id : bigint<<FK>>
 }
 
-
-entity "Authors" as authors {
-  id : bigint
-  --
-  name : string
-  name_kana : string
+entity "Types(メッセージの雰囲気)" as TYPES {
+    id : bigint
+    --
+    name : bigint(送る雰囲気) null: false
 }
 
-entity "Categories" as categories {
-  id : bigint
-  --
-  name : string
+entity "Employees(自社社員)" as EMPLOYEES {
+    id : bigint
+    --
+    company_id : bigintt<<FK>>
+    department_id : bigintt<<FK>>
+    name : string(社員名) null: false
 }
 
-entity "BookAuthors" as books_authors {
-  id : bigint
-  --
-  book_id : bigint <<FK>>
-  author_id : bigint <<FK>>
+entity "Departments(部署)" as DEPARTMENTS {
+    id : bigint
+    --
+    name : string(部署名) null: false
 }
 
-entity "BookCategories" as books_categories {
-  id : bigint
-  --
-  book_id : bigint <<FK>>
-  category_id : bigint <<FK>>
+entity "Companies(会社)" as COMPANIES {
+    id : bigint
+    --
+    name : string(会社名) null: false
+    type : string(自社 or 取引先) null: false
 }
 
-entity "ReadingPlans" as reading_plans {
-  id : bigint
-  --
-  book_id : bigint <<FK>>
-  start_day : date <<読書開始日>>
-  day_of_week : string <<読む曜日>>
-  total_pages : int <<総ページ数>>
-  start_page : int <<読み始めるページ>>
-  end_page : int <<読み終えるページ>>
-  target_pages : int <<1日目標ページ>>
+entity "Positions(役職)" as POSITIONS {
+    id : bigint
+    --
+    name : string(役職名) null: false
 }
 
-entity "ReadingHistories" as logs {
-  id : bigint
-  --
-  user_id : bigint <<FK>>
-  book_id : bigint <<FK>>
-  date : date <<読書した日>>
-  read_pages : int <<読書したページ数>>
+entity "Clients(取引先の担当者名)" as CLIENTS {
+    id : bigint
+    --
+    company_id : bigintt<<FK>>
+    department_id : bigintt<<FK>>
+    name : string(担当者名) null: false
 }
 
-books ||--o{ reading_plans
-users ||--o{ reading_plans
-books ||--o{ logs
-users ||--o{ logs
-users ||--o{ books
-books ||--o{ books_authors
-authors ||--o{ books_authors
-books ||--o{ books_categories
-categories ||--o{ books_categories
+USERS |o--o{ COMPANIES
+USERS |o--o| DEPARTMENTS
+USERS |o--o| POSITIONS
+USERS |o--o{ POSTS
+USERS |o--o{ CLIENTS
+
+COMPANIES |o--o{ EMPLOYEES
+EMPLOYEES }o--o| DEPARTMENTS
+EMPLOYEES }o--o| POSITIONS
+
+CLIENTS }o--o| COMPANIES
+CLIENTS }o--o| DEPARTMENTS
+
+POSTS |o--o{ POSTTYPES
+TYPES |o--o{ POSTTYPES
 
 @enduml

@@ -11,16 +11,16 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
   && apt-get install -y nodejs yarn
 
 # 作業ディレクトリを指定
-WORKDIR /app_book
+WORKDIR /app_ai
 
 # ホストのGemfileとGemfile.lockをコンテナにコピー
-COPY Gemfile Gemfile.lock /app_book/
+COPY Gemfile Gemfile.lock /app_ai/
 
 # bundle installを実行
 RUN bundle install
 
 # ホストのカレントディレクトリをコンテナにコピー
-COPY . /app_book/
+COPY . /app_ai/
 
 # entrypoint.shをコンテナ内の/usr/binにコピーし、実行権限を与える
 COPY entrypoint.sh /usr/bin/

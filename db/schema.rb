@@ -14,107 +14,88 @@ ActiveRecord::Schema[7.0].define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "authors", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "name_kana", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_authors_on_name"
-  end
-
-  create_table "books", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "url"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "status", default: false, null: false
-    t.index ["title"], name: "index_books_on_title"
-    t.index ["user_id"], name: "index_books_on_user_id"
-  end
-
-  create_table "books_authors", force: :cascade do |t|
-    t.bigint "book_id", null: false
-    t.bigint "author_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["author_id"], name: "index_books_authors_on_author_id"
-    t.index ["book_id", "author_id"], name: "index_books_authors_on_book_id_and_author_id", unique: true
-    t.index ["book_id"], name: "index_books_authors_on_book_id"
-  end
-
-  create_table "books_categories", force: :cascade do |t|
-    t.bigint "book_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id", "category_id"], name: "index_books_categories_on_book_id_and_category_id", unique: true
-    t.index ["book_id"], name: "index_books_categories_on_book_id"
-    t.index ["category_id"], name: "index_books_categories_on_category_id"
-  end
-
-  create_table "categories", force: :cascade do |t|
+  create_table "clients", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "department_id"
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_categories_on_name"
+    t.index ["company_id"], name: "index_clients_on_company_id"
+    t.index ["department_id"], name: "index_clients_on_department_id"
   end
 
-  create_table "libraries", force: :cascade do |t|
+  create_table "companies", force: :cascade do |t|
     t.string "name", null: false
-    t.string "name_kana", null: false
-    t.string "author_kana", null: false
-    t.string "category", null: false
-    t.string "total_pages"
+    t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "author", null: false
-    t.index ["author"], name: "index_libraries_on_author"
-    t.index ["category"], name: "index_libraries_on_category"
-    t.index ["name"], name: "index_libraries_on_name"
   end
 
-  create_table "reading_histories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "book_id", null: false
-    t.date "date", null: false
-    t.integer "read_pages", null: false
+  create_table "departments", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_reading_histories_on_book_id"
-    t.index ["user_id"], name: "index_reading_histories_on_user_id"
   end
 
-  create_table "reading_plans", force: :cascade do |t|
-    t.date "start_day", null: false
-    t.string "day_of_week", null: false
-    t.integer "total_pages", null: false
-    t.integer "start_page", null: false
-    t.integer "end_page", null: false
-    t.integer "target_pages", null: false
-    t.bigint "book_id", null: false
+  create_table "employees", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "department_id"
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_employees_on_company_id"
+    t.index ["department_id"], name: "index_employees_on_department_id"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_types", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_types_on_post_id"
+    t.index ["type_id"], name: "index_post_types_on_type_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "text", null: false
+    t.integer "word_count"
+    t.string "sns", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "types", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "department_id"
+    t.bigint "client_id"
+    t.string "job_status", null: false
+    t.string "name", null: false
+    t.string "name_kana", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name", null: false
-    t.string "name_kana", null: false
+    t.index ["client_id"], name: "index_users_on_client_id"
+    t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["department_id"], name: "index_users_on_department_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "books", "users"
-  add_foreign_key "books_authors", "authors"
-  add_foreign_key "books_authors", "books"
-  add_foreign_key "books_categories", "books"
-  add_foreign_key "books_categories", "categories"
-  add_foreign_key "reading_histories", "books"
-  add_foreign_key "reading_histories", "users"
-  add_foreign_key "reading_plans", "books"
 end

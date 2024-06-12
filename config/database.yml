@@ -8,11 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: app_book_development
+  database: app_ai_development
 
 test:
   <<: *default
-  database: app_book_test
+  database: app_ai_test
 
 production:
   <<: *default
