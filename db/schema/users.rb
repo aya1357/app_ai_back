@@ -2,7 +2,6 @@ create_table 'users', force: :cascade do |t|
   t.bigint :company_id
   t.bigint :department_id
   t.bigint :client_id
-  t.string :job_status, null: false
 
   t.string :name, null: false
   t.string :name_kana, null: false

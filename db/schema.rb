@@ -14,6 +14,16 @@ ActiveRecord::Schema[7.0].define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "auth_providers", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider"], name: "index_auth_providers_on_provider", unique: true
+    t.index ["user_id"], name: "index_auth_providers_on_user_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.bigint "company_id"
     t.bigint "department_id"
@@ -47,10 +57,25 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["department_id"], name: "index_employees_on_department_id"
   end
 
+  create_table "moods", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "positions", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "post_moods", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "mood_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mood_id"], name: "index_post_moods_on_mood_id"
+    t.index ["post_id"], name: "index_post_moods_on_post_id"
   end
 
   create_table "post_types", force: :cascade do |t|
@@ -82,7 +107,6 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.bigint "company_id"
     t.bigint "department_id"
     t.bigint "client_id"
-    t.string "job_status", null: false
     t.string "name", null: false
     t.string "name_kana", null: false
     t.string "email", default: "", null: false
