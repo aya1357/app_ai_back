@@ -1,0 +1,2 @@
+class LineIntegrationError < StandardError
+end
