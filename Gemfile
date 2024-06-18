@@ -9,6 +9,10 @@ gem "bootsnap", require: false
 
 gem 'cssbundling-rails'
 
+gem 'dotenv-rails'
+
+gem 'faraday'
+
 gem 'jsbundling-rails'
 
 gem "importmap-rails"
