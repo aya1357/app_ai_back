@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   root "tops#index"
 
-  post '/chat', to: 'chat#create'
+  namespace :api do
+    namespace :v1 do
+      namespace :web do
+        post :home, to: 'home#create'
+      end
+    end
+  end
 end

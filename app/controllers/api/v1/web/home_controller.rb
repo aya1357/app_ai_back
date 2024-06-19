@@ -1,6 +1,6 @@
 require 'openai/api_client'
 
-class ChatController < ApplicationController
+class Api::V1::Web::HomeController < Api::V1::Web::BaseController
   skip_before_action :verify_authenticity_token
 
   def create
