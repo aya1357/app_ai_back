@@ -23,6 +23,8 @@ gem "pg", "~> 1.1"
 
 gem "puma", "~> 5.0"
 
+gem 'rack-cors'
+
 gem 'ridgepole'
 
 gem "sprockets-rails"
