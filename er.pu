@@ -29,14 +29,14 @@ entity "Posts(生成した文章)" as POSTS {
     sns : string(slack or mail or blog) null: false
 }
 
-entity "post_types" as POSTTYPES {
+entity "post_moods" as POSTMOODS {
     id : bigint
     --
     post_id : bigint<<FK>>
-    type_id : bigint<<FK>>
+    mood_id : bigint<<FK>>
 }
 
-entity "Types(メッセージの雰囲気)" as TYPES {
+entity "Moods(メッセージの雰囲気)" as MOODS {
     id : bigint
     --
     name : bigint(送る雰囲気) null: false
@@ -90,7 +90,7 @@ EMPLOYEES }o--o| POSITIONS
 CLIENTS }o--o| COMPANIES
 CLIENTS }o--o| DEPARTMENTS
 
-POSTS |o--o{ POSTTYPES
-TYPES |o--o{ POSTTYPES
+POSTS |o--o{ POSTMOODS
+MOODS |o--o{ POSTMOODS
 
 @enduml

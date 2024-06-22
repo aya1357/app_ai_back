@@ -79,3 +79,6 @@ Rails/SkipsModelValidations:
     - insert_all
     - upsert_all
     - insert_all!
+
+Style/HashSyntax:
+  Enabled: false

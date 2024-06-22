@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  get 'tops/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
   root "tops#index"
+
+  namespace :api do
+    namespace :v1 do
+      namespace :web do
+        post :home, to: 'home#create'
+      end
+    end
+  end
 end

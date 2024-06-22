@@ -9,6 +9,10 @@ gem "bootsnap", require: false
 
 gem 'cssbundling-rails'
 
+gem 'dotenv-rails'
+
+gem 'faraday'
+
 gem 'jsbundling-rails'
 
 gem "importmap-rails"
@@ -18,6 +22,8 @@ gem "jbuilder"
 gem "pg", "~> 1.1"
 
 gem "puma", "~> 5.0"
+
+gem 'rack-cors'
 
 gem 'ridgepole'
 
